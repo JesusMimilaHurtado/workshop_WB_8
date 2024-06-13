@@ -111,6 +111,25 @@ app.get("/api/todos/byuser/:id", function (request, response) {
         .json(matchingTodos);
 });
 
+// Get all TODOs for a given category
+app.get("/api/todos/bycategory/:category", function (request, response) {
+    const requestedCategory = request.params.category;
+    console.info("LOG: Got a GET request for todos for userid", requestedCategory);
+
+    const json = fs.readFileSync(__dirname + "/data/todos.json", "utf8");
+    const todos = JSON.parse(json);
+
+    // Find the requested todos
+    const matchingTodos = todos.filter((todo) => String(todo.category) === String(requestedCategory));
+
+    // LOG data for tracing
+    console.info("LOG: Returned todos are ->", matchingTodos);
+
+    response
+        .status(200)
+        .json(matchingTodos);
+});
+
 
 // Get all users (without passwords)
 app.get("/api/users", function (request, response) {

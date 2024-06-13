@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     document.addEventListener('keyup', event => {
-
+        
         if(event.key === 'Enter'){
             getData()
         }
@@ -58,9 +58,11 @@ function fetchQuery(endpoint){
     fetch('http://localhost:8083/api/users/' + endpoint)
     .then(response => response.json())
     .then(data => {
-        const id = data.username;
+        const username = data.username;
+        const id = data.id;
+
     
-        const queryString = `?username=${encodeURIComponent(id)}`;
+        const queryString = `?username=${encodeURIComponent(username)}&id=${encodeURIComponent(id)}`;
         const newUrl = 'todos.html' + queryString;
     
         // Redirect to the new URL with query parameters

@@ -1,0 +1,11 @@
+#infoBox{
+    outline: solid yellow;
+}
+
+.nav-item{
+    font-weight: 500;
+}
+
+.active{
+    color:rgb(234, 216, 117) !important;
+}
