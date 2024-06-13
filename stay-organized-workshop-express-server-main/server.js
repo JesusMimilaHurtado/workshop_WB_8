@@ -120,21 +120,22 @@ app.get("/api/users", function (request, response) {
     const users = JSON.parse(json);
 
     // Copy users to an new array -- omitting the passwords
-    const usersWithoutPasswords = [];
+    const usersWithPasswords = [];
     for (const user of users) {
-        usersWithoutPasswords.push({
+        usersWithPasswords.push({
             id: user.id,
             name: user.name,
             username: user.username,
+            password: user.password
         });
     }
 
     // LOG data for tracing
-    console.info("LOG: Returned users (without passwords) are ->", usersWithoutPasswords);
+    console.info("LOG: Returned users (without passwords) are ->", usersWithPasswords);
 
     response
         .status(200)
-        .json(usersWithoutPasswords);
+        .json(usersWithPasswords);
 });
 
 
@@ -184,18 +185,19 @@ app.get("/api/users/:username", function (request, response) {
     }
 
     // Create a copy without the password
-    const userWithoutPassword = { 
+    const userWithPassword = { 
         id: matchingUser.id, 
         name: matchingUser.name, 
         username: matchingUser.username,
+        password: matchingUser.password
     };
 
     // LOG data for tracing
-    console.info("LOG: Returned user is ->", userWithoutPassword);
+    console.info("LOG: Returned user is ->", userWithPassword);
 
     response
         .status(200)
-        .json(userWithoutPassword);
+        .json(userWithPassword);
 });
 
 

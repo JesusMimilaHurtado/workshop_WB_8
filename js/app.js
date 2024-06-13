@@ -2,7 +2,7 @@
 
 //input fields
 const userName = document.getElementById('user');
-const password = document.getElementById('password');
+const passwordInput = document.getElementById('password');
 const confirmedPassword = document.getElementById('passwordConfirmation');
 
 //button
@@ -12,48 +12,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
     submitButton.addEventListener('click', getData)
 
+
+    document.addEventListener('keyup', event => {
+
+        if(event.key === 'Enter'){
+            getData()
+        }
+
+    })
+
 })
 
 function getData(){
 
     const user = userName.value
-    const password = password.value
+    const password = passwordInput.value
 
     if(user || password !== " "){
-
-        fetch('http://localhost:8083/api/users')
+        
+        fetch('http://localhost:8083/api/users/' + user)
         .then(request => request.json())
         .then(data => {
 
-        let person = data.find(_user => _user.userName === user)
-        let key = data.find(_user => _user.userName === user)
-
-        if(person == null){
+        if(data.username !== user){
             alert('Unable to find user')
         }
-        else if(key == null){
+        else if(password !== data.password ){
             alert('Incorrect password')
         }
-        })
-        
-    }   
+        else if(password === confirmedPassword.value){
+            fetchQuery(user)
+        }
+        else{
+            alert('passwords don\'t match')
+        }
 
-    else{
-        alert('Please fill in user name and password')
-    }
+        })
+
+    }   
 }
 
 
-function fetchQuery(){
-
-    const endpoint = userName.value
+function fetchQuery(endpoint){
 
     fetch('http://localhost:8083/api/users/' + endpoint)
     .then(response => response.json())
     .then(data => {
-        const id = data.id;
+        const id = data.username;
     
-        const queryString = `?id=${encodeURIComponent(id)}`;
+        const queryString = `?username=${encodeURIComponent(id)}`;
         const newUrl = 'todos.html' + queryString;
     
         // Redirect to the new URL with query parameters
