@@ -13,7 +13,6 @@ const userURL = 'http://localhost:8083/api/users/';
 
 //API endpoints
 const endpointId = getQueryParam("id");
-const endpointUserName = getQueryParam("username");
 
 //button
 const deleteButton = document.getElementById('delete');
@@ -44,6 +43,8 @@ function getQueryParam(param) {
 
 //Greeting the user and getting the info by using the username in the URL as an endpoint
 function greetUser() {
+
+  const endpointUserName = getQueryParam("username");
 
   fetch(userURL + endpointUserName)
   .then((response) => response.json())
@@ -94,6 +95,7 @@ function populateDropdown() {
 
 //displays the users to do list based on the category chosen
 function createTodoList() {
+  
   const category = taskDropdown.value;
 
   fetch(byUserURL + endpointId)
