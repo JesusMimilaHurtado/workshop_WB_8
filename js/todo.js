@@ -7,18 +7,32 @@ const todoList = document.getElementById('infoBox');
 //dropdown
 const taskDropdown = document.getElementById('tasks');
 
-//most used url
+//API urls
 const byUserURL = 'http://localhost:8083/api/todos/byuser/';
+const userURL = 'http://localhost:8083/api/users/';
+
+//API endpoints
+const endpointId = getQueryParam("id");
+const endpointUserName = getQueryParam("username");
 
 //button
 const deleteButton = document.getElementById('delete');
+const editButton = document.getElementById('edit')
 
+//nav-link
+const new_todoLink = document.getElementById('newToDo')
+
+//DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
 
-  getUserData();
   populateDropdown();
+  greetUser();
   taskDropdown.addEventListener('change', createTodoList);
   deleteButton.addEventListener('click', deleteToDo)
+  editButton.addEventListener('click', () => {
+    window.location.href = 'edit.html'
+  })
+  new_todoLink.addEventListener('click', fetchQuery)
 
 });
 
@@ -28,29 +42,38 @@ function getQueryParam(param) {
   return urlParams.get(param);
 }
 
-//uses the URL value 'username' as the endpoint of the API URL
+//Greeting the user and getting the info by using the username in the URL as an endpoint
 function greetUser() {
-  const endpoint = getQueryParam("username");
 
-  fetch("http://localhost:8083/api/users/" + endpoint)
-    .then((response) => response.json())
-    .then((data) => {
-      const greeting = `Welcome, ${data.username} <br>(${data.name})!`;
-      welcome.innerHTML = greeting;
-    })
-    .catch((error) => console.error(error));
-}
+  fetch(userURL + endpointUserName)
+  .then((response) => response.json())
+  .then((data) => {
 
+    const greeting = `Welcome, ${data.username} <br>(${data.name})!`;
+    console.log(greeting)
+    console.log(`Welcome, ${data.username} <br>(${data.name})!`)
+    welcome.innerHTML = greeting;
+
+  });
+};
+  
 //populates my tasks dropdown but it is populated solely on the task relevent to the user
 function populateDropdown() {
-  const endpoint = getQueryParam("id");
 
-  fetch(byUserURL + endpoint)
+    fetch(byUserURL + endpointId)
     .then((response) => response.json())
     .then((data) => {
+
+      
+      //greeting the user
+      const greeting = `Welcome, ${data.username} <br>(${data.name})!`;
+      welcome.innerHTML = greeting;
+
+      //using set constructor to get rid of possible duplicate named options
       const categoriesSet = new Set();
       const fragment = document.createDocumentFragment();
 
+      //creating a default select option
       const defaultOption = new Option("Choose task", 0);
       fragment.appendChild(defaultOption);
 
@@ -71,10 +94,9 @@ function populateDropdown() {
 
 //displays the users to do list based on the category chosen
 function createTodoList() {
-  const endpoint = getQueryParam("id");
   const category = taskDropdown.value;
 
-  fetch(byUserURL + endpoint)
+  fetch(byUserURL + endpointId)
     .then((response) => response.json())
     .then((data) => {
       todoList.innerHTML = " ";
@@ -137,7 +159,9 @@ function deleteToDo() {
 }
 
 //Fetchquery to send URL params to new todo page
-function fetchQuery(endpoint){
+function fetchQuery(){
+
+  const endpoint = getQueryParam('username')
 
   fetch('http://localhost:8083/api/users/' + endpoint)
   .then(response => response.json())
