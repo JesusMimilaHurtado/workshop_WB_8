@@ -16,7 +16,7 @@
                 <li class="nav-item"><a href="index.html" class="nav-link text-info">Home</a></li>
                 <li class="nav-item"><a href="todos.html" class="nav-link text-info" id="toDo">To-Do's</a></li>
                 <li class="nav-item"><a href="new_todos.html" class="nav-link active">New To-Do</a></li>
-                <li class="nav-item"><a href="edit.html" class="nav-link text-info">Edit To-Do</a></li>
+                <li class="nav-item"><a href="edit.html" class="nav-link text-info" id="edit">Edit To-Do</a></li>
             </ul>
         </nav>
     </header>
@@ -33,7 +33,11 @@
         <input type="date"  id="deadline" placeholder="mm/dd/yyyy">
 
         <label for="priority" class="text-info">Priority:</label>
-        <input type="text" id="priority" placeholder="Low">
+        <select id="priority">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select>
 
         <button type="button" id="addToDo" class="mt-4">Add New Quest</button>
 

@@ -11,11 +11,13 @@ const addToDoButton = document.getElementById('addToDo');
 
 //nav-link
 const todoLink = document.getElementById('toDo');
+const editLink = document.getElementById('edit')
 
 document.addEventListener('DOMContentLoaded', () => {
 
     addToDoButton.addEventListener('click', addNewTodo)
     todoLink.addEventListener('click', fetchQuery)
+    editLink.addEventListener('click', fetchQueryEdit)
 
 })
 
@@ -73,6 +75,28 @@ function fetchQuery(){
     
         const queryString = `?username=${encodeURIComponent(username)}&id=${encodeURIComponent(id)}`;
         const newUrl = 'todos.html' + queryString;
+    
+        // Redirect to the new URL with query parameters
+        window.location.href = newUrl;
+    })
+  
+    .catch((error) => console.error(error));
+  
+}
+
+//Fetchquery to send URL params to new todo page
+function fetchQueryEdit(){
+
+    const endpoint = getQueryParam('username')
+  
+    fetch('http://localhost:8083/api/users/' + endpoint)
+    .then(response => response.json())
+    .then(data => {
+        const username = data.username;
+        const id = data.id;
+  
+        const queryString = `?username=${encodeURIComponent(username)}&id=${encodeURIComponent(id)}`;
+        const newUrl = 'edit.html' + queryString;
     
         // Redirect to the new URL with query parameters
         window.location.href = newUrl;

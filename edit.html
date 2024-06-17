@@ -15,27 +15,39 @@
             <ul class="navbar-nav w-100 d-flex justify-content-evenly">
                 <li class="nav-item"><a href="index.html" class="nav-link text-info">Home</a></li>
                 <li class="nav-item"><a href="todos.html" class="nav-link text-info" id="toDo">To-Do's</a></li>
-                <li class="nav-item"><a href="new_todos.html" class="nav-link text-info">New To-Do</a></li>
+                <li class="nav-item"><a href="new_todos.html" class="nav-link text-info" id="new">New To-Do</a></li>
                 <li class="nav-item"><a href="edit.html" class="nav-link active">Edit To-Do</a></li>
 
             </ul>
         </nav>
     </header>
 
-    <label for="todo"></label>
+    <label for="todo" class="text-info">Select Todo:</label>
+    <select id="todo">
+
+    </select>
+
+    <p id="info" class="text-info">
+        
+    </p>
+
     <form class="d-flex flex-column">
 
         <label for="category" class="text-info">Category:</label>
         <input type="text" id="category" placeholder="Personal">
 
-        <label for="description" class="text-info">Description:</label>
+        <label for="description" class="text-info">To Do:</label>
         <input type="text" id="description" placeholder="Take dog on Walk">
 
         <label for="deadline" class="text-info">Pick a Deadline:</label>
         <input type="date"  id="deadline" placeholder="mm/dd/yyyy">
 
         <label for="priority" class="text-info">Priority:</label>
-        <input type="text" id="priority" placeholder="Low">
+        <select id="priority">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select>
 
         <button type="button" id="editToDo" class="mt-4">Edit Old Quest</button>
 

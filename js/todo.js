@@ -16,22 +16,24 @@ const endpointId = getQueryParam("id");
 
 //button
 const deleteButton = document.getElementById('delete');
-const editButton = document.getElementById('edit')
+const editButton = document.getElementById('editButton');
 
 //nav-link
-const new_todoLink = document.getElementById('newToDo')
+const new_todoLink = document.getElementById('newToDo');
+const editLink = document.getElementById('edit')
 
 //DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
 
   populateDropdown();
   greetUser();
+  
   taskDropdown.addEventListener('change', createTodoList);
   deleteButton.addEventListener('click', deleteToDo)
-  editButton.addEventListener('click', () => {
-    window.location.href = 'edit.html'
-  })
+  editButton.addEventListener('click', fetchQueryEdit)
+  editLink.addEventListener('click', fetchQueryEdit)
   new_todoLink.addEventListener('click', fetchQuery)
+
 
 });
 
@@ -65,11 +67,6 @@ function populateDropdown() {
     .then((response) => response.json())
     .then((data) => {
 
-      
-      //greeting the user
-      const greeting = `Welcome, ${data.username} <br>(${data.name})!`;
-      welcome.innerHTML = greeting;
-
       //using set constructor to get rid of possible duplicate named options
       const categoriesSet = new Set();
       const fragment = document.createDocumentFragment();
@@ -95,7 +92,7 @@ function populateDropdown() {
 
 //displays the users to do list based on the category chosen
 function createTodoList() {
-  
+
   const category = taskDropdown.value;
 
   fetch(byUserURL + endpointId)
@@ -171,9 +168,30 @@ function fetchQuery(){
       const username = data.username;
       const id = data.id;
 
-  
       const queryString = `?username=${encodeURIComponent(username)}&id=${encodeURIComponent(id)}`;
       const newUrl = 'new_todos.html' + queryString;
+  
+      // Redirect to the new URL with query parameters
+      window.location.href = newUrl;
+  })
+
+  .catch((error) => console.error(error));
+
+}
+
+//Fetchquery to send URL params to new todo page
+function fetchQueryEdit(){
+
+  const endpoint = getQueryParam('username')
+
+  fetch('http://localhost:8083/api/users/' + endpoint)
+  .then(response => response.json())
+  .then(data => {
+      const username = data.username;
+      const id = data.id;
+
+      const queryString = `?username=${encodeURIComponent(username)}&id=${encodeURIComponent(id)}`;
+      const newUrl = 'edit.html' + queryString;
   
       // Redirect to the new URL with query parameters
       window.location.href = newUrl;
